@@ -1,0 +1,108 @@
+body,html {
+    padding:0;
+    margin: 0;
+    height:100%;
+    width:100%;
+}
+body {
+    background: black;
+    font-family: verdana, sans-serif;
+    transform: translateZ(0);
+    user-select: none;
+}
+div{
+    box-sizing: border-box;
+    display: flex;
+    box-orient: horizontal;
+    box-pack: center;
+    box-align: center;
+    font-weight: bold;
+    width: 23%;
+    height: 48%;
+    margin: 1%;
+    padding:20px;
+    border: 3px solid #eee;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    position:absolute;
+    transition: all 0.2s ease-out;
+
+    @for $i from 0 through 7 {
+        &:nth-child( #{ $i+1 }n ){
+            @if $i < 4 {
+                left: $i * 25%;
+            }@else {
+                left: ($i - 4) * 25%;
+                top:50%
+            }
+        }
+    }
+    &.selected {
+        z-index:100;
+        opacity: .9;
+        width:98%;
+        height:98%;
+        background:black;
+        top:0;
+        left:0;
+        span{
+            font-size: 8em;
+        }
+
+    }
+    span{
+        transition: all 0.2s ease-in;
+    }
+    &.surprise{
+        span{
+            opacity: 0;
+        }
+    }
+}
+button{
+    display: none;
+    -webkit-touch-callout: none;
+    box-sizing: border-box;
+    padding: 1em;
+    border: 2px solid white;
+    border-radius: 3px;
+    background: black;
+    color: white;
+}
+.fullScreenEnabled{
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-orient: horizontal;
+        box-pack: center;
+        box-align: center;
+    }
+
+    div {
+        display: none;
+    }
+    button{
+        display: inline-block;
+        flex: 0 1 auto;
+    }
+    :-webkit-full-screen{
+        display: block;
+        div{
+            display: flex;
+        }
+        button{
+            display: none;
+        }
+    }
+    :-moz-full-screen{
+        display: block;
+        div{
+            display: flex;
+        }
+        button{
+            display: none;
+        }
+    }
+}
