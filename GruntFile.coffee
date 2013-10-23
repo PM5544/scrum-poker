@@ -25,7 +25,7 @@ module.exports = (grunt) ->
                 bare: true
             dist:
                 files:
-                    'dist/index.js': '_sources/index.coffee'
+                    'tmp/index.js': '_src/index.coffee'
 
 
         haml:
@@ -33,7 +33,7 @@ module.exports = (grunt) ->
                 style: 'expanded'
             dist:
                 files:
-                    'dist/index.html': '_sources/index.haml'
+                    'tmp/index.html': '_src/index.haml'
 
 
         htmlmin:
@@ -41,7 +41,7 @@ module.exports = (grunt) ->
                 collapseWhitespace: true
             dist:
                 files:
-                    'dist/index.html': 'dist/index.html'
+                    'dist/index.html': 'tmp/index.html'
 
 
         sass:
@@ -50,35 +50,40 @@ module.exports = (grunt) ->
                 noCache: true
             dist:
                 files:
-                    'dist/styles.css': '_sources/styles.scss'
+                    'tmp/styles.css': '_src/styles.scss'
 
 
         autoprefixer:
             options:
-              browsers: ['last 2 version', '> 1%']
-            dev:
-                src: 'dist/styles.css'
-                dest: 'dist/styles.css'
+                browsers: ["ff 23", "chrome 28", "ios 5"]
+            dist:
+                src: 'tmp/styles.css'
+                dest: 'tmp/styles.css'
 
 
         cssmin:
             dist:
-                src: 'dist/styles.css'
-                dest: 'dist/styles.css'
+                src: 'tmp/styles.css'
+                dest: 'tmp/styles.css'
 
 
         concat:
             options:
                 separator: ';'
-            dev:
-                src: ['_sources/fullscreen.js','dist/index.js']
-                dest: 'dist/index.js'
+            dist:
+                src: ['_src/fullscreen.js','tmp/index.js']
+                dest: 'tmp/index.concatenated.js'
 
 
         uglify:
+            options:
+                mangle: false
+                compress: false
+                report: true
+                wrap: "true"
             dist:
                 files:
-                    'dist/index.min.js': 'dist/index.js'
+                    'tmp/index.concatenated.min.js': 'tmp/index.concatenated.js'
 
 
         replace:
@@ -88,16 +93,16 @@ module.exports = (grunt) ->
                         {
                             match: 'styles'
                             replacement:  () ->
-                                grunt.file.read 'dist/styles.css'
+                                grunt.file.read 'tmp/styles.css'
                         }
                         {
                             match: 'script'
                             replacement: () ->
-                                grunt.file.read 'dist/index.js'
+                                grunt.file.read 'tmp/index.concatenated.js'
                         }
                     ]
                 files:[
-                    'dist/index.html':'dist/index.html'
+                    'dist/index.html':'tmp/index.html'
                 ]
             dist:
                 options:
@@ -105,35 +110,35 @@ module.exports = (grunt) ->
                         {
                             match: 'styles'
                             replacement:  () ->
-                                grunt.file.read 'dist/styles.css'
+                                grunt.file.read 'tmp/styles.css'
                         }
                         {
                             match: 'script'
                             replacement: () ->
-                                grunt.file.read 'dist/index.min.js'
+                                grunt.file.read 'tmp/index.concatenated.min.js'
                         }
                     ]
                 files:[
-                    'dist/index.html':'dist/index.html'
+                    'dist/index.html':'tmp/index.html'
                 ]
 
 
         clean:
             dist:
-                src: ['dist/styles.css', 'dist/index.js', 'dist/index.min.js']
+                src: ['tmp']
 
 
         watch:
             options:
                 spawn: false
             coffee:
-                files: ['_sources/index.coffee']
+                files: ['_src/index.coffee']
                 tasks: [ 'dev' ]
             haml:
-                files: ['_sources/index.haml']
+                files: ['_src/index.haml']
                 tasks: [ 'dev' ]
             sass:
-                files: ['_sources/styles.scss']
+                files: ['_src/styles.scss']
                 tasks: [ 'dev' ]
 
 
@@ -150,7 +155,7 @@ module.exports = (grunt) ->
     )
 
     # Default task(s).
-    grunt.registerTask 'default', ['coffee','concat', 'uglify', 'haml', 'htmlmin', 'sass', 'autoprefixer', 'cssmin', 'replace:dist', 'clean', 'ftp_push' ]
+    grunt.registerTask 'default', ['coffee','concat', 'uglify', 'haml', 'htmlmin', 'sass', 'autoprefixer', 'cssmin', 'replace:dist', 'clean', 'ftp_push']
     grunt.registerTask 'dev', ['coffee', 'concat', 'haml', 'sass', 'autoprefixer', 'replace:dev', 'clean']
 
     undefined
