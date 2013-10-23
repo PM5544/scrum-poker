@@ -29,7 +29,6 @@ steps = [
         selectedElement.className = ''
         window.setTimeout(
             ()->
-                console.log 'step 5 handler'
                 executeStep()
         ,   300
         )
@@ -41,17 +40,15 @@ steps = [
 
 # functoinal part
 executeStep = () ->
-    console.log index
-
     steps[ index ]()
     if not steps[ ++index ]
         index = 0
+
 
 transitionEnd = (e) ->
     if not (e.target is selectedElement) or not(e.propertyName is 'opacity')
         return
 
-    console.log 'transitionend handler'
     executeStep()
 
 
