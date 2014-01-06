@@ -78,21 +78,6 @@ deviceMotion = (e) ->
         executeStep()
 
 
-fullscreenChange = (isFullScreen) ->
-    if not isFullScreen
-        body.className = ''
-        index = 0
-        if selectedElement
-            selectedElement.className = ''
-            selectedElement = null
-
-
-# event binding
-if fullScreen and fullScreen.fullScreenEnabled
-    button = document.querySelector 'button'
-    fullScreen.addEventListener button, 'click', body
-    fullScreen.fullscreenchange fullscreenChange
-
 body.addEventListener 'touchstart', touchStart, false
 body.addEventListener 'transitionend', transitionEnd, false
 body.addEventListener 'webkitTransitionEnd', transitionEnd, false

@@ -71,7 +71,7 @@ module.exports = (grunt) ->
             options:
                 separator: ';'
             dist:
-                src: ['_src/fullscreen.js','tmp/index.js']
+                src: ['tmp/index.js']
                 dest: 'tmp/index.concatenated.js'
 
 
@@ -83,7 +83,7 @@ module.exports = (grunt) ->
                 wrap: "true"
             dist:
                 files:
-                    'tmp/index.concatenated.min.js': 'tmp/index.concatenated.js'
+                    'tmp/index.min.js': 'tmp/index.js'
 
 
         replace:
@@ -98,7 +98,7 @@ module.exports = (grunt) ->
                         {
                             match: 'script'
                             replacement: () ->
-                                grunt.file.read 'tmp/index.concatenated.js'
+                                grunt.file.read 'tmp/index.js'
                         }
                     ]
                 files:[
@@ -115,7 +115,7 @@ module.exports = (grunt) ->
                         {
                             match: 'script'
                             replacement: () ->
-                                grunt.file.read 'tmp/index.concatenated.min.js'
+                                grunt.file.read 'tmp/index.min.js'
                         }
                     ]
                 files:[
@@ -150,12 +150,12 @@ module.exports = (grunt) ->
                 port: 21
             dist:
                 files: [
-                    src: ['dist/index.html']
+                    src: ['dist/index.html','dist/128.png', '196.png']
                 ]
     )
 
     # Default task(s).
-    grunt.registerTask 'default', ['coffee','concat', 'uglify', 'haml', 'htmlmin', 'sass', 'autoprefixer', 'cssmin', 'replace:dist', 'clean', 'ftp_push']
-    grunt.registerTask 'dev', ['coffee', 'concat', 'haml', 'sass', 'autoprefixer', 'replace:dev', 'clean']
+    grunt.registerTask 'default', ['coffee', 'uglify', 'haml', 'htmlmin', 'sass', 'autoprefixer', 'cssmin', 'replace:dist', 'clean', 'ftp_push']
+    grunt.registerTask 'dev', ['coffee', 'haml', 'sass', 'autoprefixer', 'replace:dev', 'clean']
 
     undefined

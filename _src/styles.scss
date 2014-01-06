@@ -21,33 +21,6 @@ body,html {
     user-select: none;
 }
 
-.fullScreenEnabled{
-    body{
-        div {
-            display: none;
-        }
-    }
-    button{
-        display: inline-block;
-        flex: 0 1 auto;
-    }
-    :fullscreen{
-        &.fadedOut div {
-            display: none;
-        }
-        div{
-            display: flex;
-            &.beforeSurprise,
-            &.afterSurprise{
-                display: flex;
-            }
-        }
-        button{
-            display: none;
-        }
-    }
-}
-
 body {
 
     div{
