@@ -78,7 +78,13 @@ deviceMotion = (e) ->
         executeStep()
 
 
-body.addEventListener 'touchstart', touchStart, false
+if window.PointerEvent
+    body.addEventListener "pointerdown", touchStart
+else if window.MSPointerEvent
+    body.addEventListener "MSPointerDown", touchStart
+else
+    body.addEventListener 'touchstart', touchStart, false
+
 body.addEventListener 'transitionend', transitionEnd, false
 body.addEventListener 'webkitTransitionEnd', transitionEnd, false
 window.addEventListener "devicemotion", deviceMotion , false
